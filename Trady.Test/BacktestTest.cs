@@ -12,7 +12,6 @@ using Trady.Analysis.Extension;
 using Trady.Analysis.Indicator;
 using Trady.Core.Infrastructure;
 using Trady.Core.Period;
-using Trady.Importer.AlphaVantage;
 using Trady.Importer.Csv;
 
 namespace Trady.Test
@@ -193,42 +192,6 @@ namespace Trady.Test
                 Assert.IsTrue(isBuyRuleValid || isSellRuleValid);
             }
         }
-
-        [TestMethod]
-        public async Task TestIssue70()
-        {
-            //var importer = new AlphaVantageImporter("WUT9R5SC4IHCNA4S", OutputSize.full);
-            //var fb = importer.ImportAsync("fb", startTime: new DateTime(2018, 1, 1), period: PeriodOption.PerMinute).Result;
-
-            var importer2 = new AlphaVantageImporter("WUT9R5SC4IHCNA4S", OutputSize.full);
-            var wba = importer2.ImportAsync("xom", startTime: new DateTime(2018, 1, 1), period: PeriodOption.PerMinute).Result;
-
-            //var importer3 = new AlphaVantageImporter("WUT9R5SC4IHCNA4S", OutputSize.full);
-            //var att = importer3.ImportAsync("t", startTime: new DateTime(2018, 1, 1), period: PeriodOption.PerMinute).Result;
-
-            var buyRule = Rule.Create(c => c.IsMacdBullishCross(12, 26, 9))
-                            .And(c => c.IsRsiOversold2());
-
-            var sellRule = Rule.Create(c => c.IsMacdBearishCross(12, 26, 9))
-                            .And(c => c.IsRsiOverbought2());
-
-            var runner = new Trady.Analysis.Backtest.Builder()
-                //.Add(att, 33).Add(wba, 33).Add(fb, 33)
-                .Add(wba)
-                .Buy(buyRule)
-                .Sell(sellRule)
-                //.FlatExchangeFeeRate(.05m)
-                .FlatExchangeFeeRate(5)
-                //.Premium(5)
-                .Build();
-
-            Assert.ThrowsException<AggregateException>(() => runner.RunAsync(10000, new DateTime(2018, 1, 1)).Result, "The FlatExchangeFee must be set to a value that is greater than equal to zero(>= 0) and less than one(< 1).Example => .25");
-            //var result = runner.RunAsync(10000, new DateTime(2018, 1, 1)).Result;
-
-            //Console.WriteLine($"Transaction count: {result.Transactions.Count():#.##}, P/L ratio: {result.TotalCorrectedProfitLossRatio * 100}%, Principal: {result.TotalPrincipal}, Total: {result.TotalCorrectedBalance}");
-        }
-
-        
     }
 
     public static class Signals

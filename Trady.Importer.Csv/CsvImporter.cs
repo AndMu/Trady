@@ -43,9 +43,15 @@ namespace Trady.Importer.Csv
         public async Task<IReadOnlyList<IOhlcv>> ImportAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, PeriodOption period = PeriodOption.Daily, CancellationToken token = default(CancellationToken))
             => await Task.Factory.StartNew(() =>
             {
+                var conf = new CsvConfiguration(_culture)
+                {
+                    Delimiter = string.IsNullOrWhiteSpace(_delimiter) ? "," : _delimiter,
+                    HasHeaderRecord = _hasHeader,
+                };
+
                 using (var fs = File.OpenRead(_path))
                 using (var sr = new StreamReader(fs))
-                using (var csvReader = new CsvReader(sr, new Configuration() { CultureInfo = _culture, Delimiter = string.IsNullOrWhiteSpace(_delimiter) ? "," : _delimiter, HasHeaderRecord = _hasHeader }))
+                using (var csvReader = new CsvReader(sr, conf))
                 {
                     var candles = new List<IOhlcv>();
                     bool isHeaderBypassed = false;
