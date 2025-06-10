@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-    - 'src/**'
+    - '**'
     - '.github/workflows/build.yml'
 env:
   DOTNET_CORE_VERSION: '9.0.x'
@@ -34,13 +34,6 @@ jobs:
         else
           echo "VERSION=${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ env.REVISION_VERSION }}.${{ github.run_number }}-dev" >> $GITHUB_ENV
         fi        
-
-    - name: Create Git tag
-      run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git tag -a v${VERSION} -m "Version ${VERSION}"
-        git push origin v${VERSION}
     
     - name: Build
       run: |
@@ -64,4 +57,4 @@ jobs:
     
     - name: Push NuGet package
       run: |        
-        dotnet nuget push out/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }} --skip-duplicate
+        dotnet nuget push out/Trady.Analysis*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }} --skip-duplicate
