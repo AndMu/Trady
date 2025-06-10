@@ -41,7 +41,7 @@
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Trady.Core\Trady.Core.csproj" />
+    <ProjectReference Include="..\Trady.Core\Trady.Core.csproj" PrivateAssets="all" />
   </ItemGroup>
   <!--<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />-->
   <ItemGroup>
