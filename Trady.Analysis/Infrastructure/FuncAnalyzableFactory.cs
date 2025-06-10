@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Trady.Analysis.Indicator;
 using Trady.Core.Infrastructure;
-using Trady.Core;
-using System.Linq;
 
 namespace Trady.Analysis.Infrastructure
 {
