@@ -30,7 +30,6 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <!--<Compile Include="**\*.cs" />-->
     <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
   <ItemGroup>
@@ -43,8 +42,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Trady.Core\Trady.Core.csproj" PrivateAssets="all" />
   </ItemGroup>
-  <!--<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />-->
   <ItemGroup>
-    <Folder Include="Candlestick\" />
-  </ItemGroup>
+    <None Include="..\Trady.Core\bin\$(Configuration)\netstandard2.1\Trady.Core.dll" Pack="true" PackagePath="lib\netstandard2.1\" />
+  </ItemGroup>  
 </Project>
