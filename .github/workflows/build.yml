@@ -57,4 +57,4 @@ jobs:
     
     - name: Push NuGet package
       run: |        
-        dotnet nuget push out/Trady.Analysis*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }} --skip-duplicate
+        dotnet nuget push out/PySenti.Trady.Analysis*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }} --skip-duplicate
