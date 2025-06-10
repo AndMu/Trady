@@ -7,8 +7,8 @@ on:
     - '.github/workflows/build.yml'
 env:
   DOTNET_CORE_VERSION: '9.0.x'
-  MAJOR_VERSION: '1'
-  MINOR_VERSION: '8'
+  MAJOR_VERSION: '4'
+  MINOR_VERSION: '0'
   REVISION_VERSION: '0'
   NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
 
@@ -44,12 +44,10 @@ jobs:
     
     - name: Build
       run: |
-        cd src
         dotnet build -c Release --nologo     
 
     - name: Test # This is the new test step
       run: |
-        cd src
         dotnet test --no-restore --verbosity normal --nologo --collect:"XPlat Code Coverage" --results-directory ../TestResults/ --logger:trx
       # Note: Adjust the `dotnet test` command to target your specific test project if necessary.
 
@@ -61,11 +59,10 @@ jobs:
         path: TestResults/        
     
     - name: Pack NuGet package
-      run: |        
-        cd src
+      run: |    
         dotnet pack -c Release -o out /p:Version=${VERSION}
     
     - name: Push NuGet package
       run: |
-        cd src/out
+        cd out
         dotnet nuget push Trady.Analysis.*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }} --skip-duplicate
